@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Massage | Your Town</title>
+  <meta name="description" id="page-description" content="Professional massage therapy. Relax and rejuvenate." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <nav class="nav">
+      <a href="#" class="logo" id="nav-logo">Store Name</a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#gallery">Photos</a></li>
+        <li><a href="#location">Location</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-bg" id="hero-bg"></div>
+      <div class="hero-content">
+        <h1 id="hero-title">Store Name</h1>
+        <p class="hero-tagline" id="hero-tagline">Your tagline</p>
+        <p class="hero-address" id="hero-address">Address</p>
+        <a href="#contact" class="btn btn-primary">Book Your Visit</a>
+      </div>
+    </section>
+
+    <section class="intro">
+      <div class="container">
+        <h2 id="intro-title">Welcome</h2>
+        <p class="intro-text" id="intro-text"></p>
+      </div>
+    </section>
+
+    <section id="services" class="services">
+      <div class="container">
+        <h2>Our Services</h2>
+        <div class="services-grid" id="services-grid"></div>
+        <p class="services-note">Call or visit for current pricing and to schedule your session.</p>
+      </div>
+    </section>
+
+    <section id="gallery" class="gallery">
+      <div class="container">
+        <h2>Photos</h2>
+        <div class="gallery-grid" id="gallery-grid"></div>
+        <p class="gallery-external" id="gallery-external"></p>
+      </div>
+    </section>
+
+    <section id="location" class="location">
+      <div class="container">
+        <h2>Visit Us</h2>
+        <div class="location-content">
+          <div class="location-info">
+            <address id="location-address"></address>
+            <div class="hours">
+              <h3>Hours</h3>
+              <div id="hours-content"></div>
+            </div>
+            <p class="amenities" id="amenities-list"></p>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline" id="btn-directions">Get Directions</a>
+            <p class="reviews-cta" id="reviews-cta"></p>
+          </div>
+          <div class="map-embed">
+            <iframe id="map-iframe" width="100%" height="280" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Store location"></iframe>
+            <p class="map-fallback"><a href="#" id="map-link" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2>Contact</h2>
+        <div class="contact-content">
+          <p id="contact-text">Ready to book? Call us or stop by.</p>
+          <a href="#" id="contact-phone" class="contact-phone"></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© <span id="year"></span> <span id="footer-name"></span>. <span id="footer-city"></span>.</p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script>
+    const C = STORE_CONFIG;
+
+    function formatAddress() {
+      const a = C.address;
+      if (!a || !a.street) return C.address ? [C.address.street, C.address.city, C.address.state, C.address.zip].filter(Boolean).join(', ') : '';
+      return [a.street, [a.city, a.state, a.zip].filter(Boolean).join(', ')].join('\n');
+    }
+
+    function mapQuery() {
+      const a = C.address;
+      if (!a) return '';
+      return [a.street, a.city, a.state, a.zip].filter(Boolean).join(', ');
+    }
+
+    // Page title & meta
+    document.getElementById('page-title').textContent = (C.name || 'Massage') + ' | ' + (C.address ? C.address.city + ', ' + C.state : '');
+    if (C.description) document.getElementById('page-description').content = C.description;
+
+    // Logo & hero
+    document.getElementById('nav-logo').innerHTML = (C.name || 'Store Name').replace(/\s+(II|2|III|2nd)$/, ' <span class="logo-accent">$1</span>');
+    document.getElementById('hero-title').innerHTML = (C.name || 'Store Name').replace(/\s+(II|2|III|2nd)$/, ' <span class="hero-accent">$1</span>');
+    document.getElementById('hero-tagline').textContent = C.tagline || 'Relax and rejuvenate.';
+    document.getElementById('hero-address').textContent = formatAddress() || 'Address';
+    if (C.heroImageUrl) {
+      document.getElementById('hero-bg').style.backgroundImage = 'linear-gradient(160deg, rgba(250,248,245,0.85) 0%, rgba(250,248,245,0.7) 100%), url(' + C.heroImageUrl + ')';
+      document.getElementById('hero-bg').style.backgroundSize = 'cover';
+      document.getElementById('hero-bg').style.backgroundPosition = 'center';
+    }
+
+    // Intro
+    document.getElementById('intro-title').textContent = 'Welcome to ' + (C.name || 'Us');
+    document.getElementById('intro-text').textContent = C.description || 'Professional massage therapy in a serene setting.';
+
+    // Services
+    const servicesGrid = document.getElementById('services-grid');
+    if (C.services && C.services.length) {
+      C.services.forEach(function(s) {
+        const card = document.createElement('article');
+        card.className = 'service-card';
+        card.innerHTML = '<div class="service-icon">✦</div><h3>' + (s.name || '') + '</h3><p>' + (s.description || '') + '</p>';
+        servicesGrid.appendChild(card);
+      });
+    }
+
+    // Gallery
+    const galleryGrid = document.getElementById('gallery-grid');
+    const galleryExternal = document.getElementById('gallery-external');
+    if (C.galleryImages && C.galleryImages.length) {
+      C.galleryImages.forEach(function(url) {
+        const wrap = document.createElement('div');
+        wrap.className = 'gallery-item';
+        wrap.innerHTML = '<img src="' + url + '" alt="" loading="lazy" />';
+        galleryGrid.appendChild(wrap);
+      });
+    }
+    if (C.photosGalleryUrl && C.photosGalleryLabel) {
+      galleryExternal.innerHTML = '<a href="' + C.photosGalleryUrl + '" target="_blank" rel="noopener noreferrer">' + C.photosGalleryLabel + '</a>';
+    }
+    var gallerySection = document.querySelector('.gallery');
+    if (!C.galleryImages?.length && !C.photosGalleryUrl) {
+      if (gallerySection) gallerySection.style.display = 'none';
+      var photoLink = document.querySelector('.nav-links a[href="#gallery"]');
+      if (photoLink && photoLink.parentElement) photoLink.parentElement.style.display = 'none';
+    }
+
+    // Location
+    const addr = C.address;
+    const addrHtml = addr ? '<strong>' + (C.name || '') + '</strong><br/>' + (addr.street || '') + '<br/>' + [addr.city, addr.state, addr.zip].filter(Boolean).join(', ') + (C.crossStreets ? '<br/><span class="cross-streets">' + C.crossStreets + '</span>' : '') : '';
+    document.getElementById('location-address').innerHTML = addrHtml;
+
+    const hoursEl = document.getElementById('hours-content');
+    if (C.hours) {
+      if (Array.isArray(C.hours)) {
+        hoursEl.innerHTML = '<p>' + C.hours.join('<br/>') + '</p>';
+      } else {
+        hoursEl.innerHTML = '<p>' + C.hours + '</p>';
+      }
+    } else {
+      hoursEl.innerHTML = '<p>Please call for current hours and appointments.</p>';
+    }
+
+    if (C.amenities && C.amenities.length) {
+      document.getElementById('amenities-list').innerHTML = 'Amenities: ' + C.amenities.join(' • ');
+      document.getElementById('amenities-list').style.display = 'block';
+    } else {
+      document.getElementById('amenities-list').style.display = 'none';
+    }
+
+    const mapsQ = mapQuery();
+    const mapsUrl = (C.links && C.links.googleMaps) || 'https://www.google.com/maps/search/' + encodeURIComponent(mapsQ);
+    document.getElementById('btn-directions').href = mapsUrl;
+    document.getElementById('map-link').href = mapsUrl;
+    document.getElementById('map-iframe').src = 'https://www.google.com/maps?q=' + encodeURIComponent(mapsQ) + '&output=embed';
+    document.getElementById('map-iframe').title = (C.name || 'Store') + ' location';
+
+    if (C.reviewCount && C.reviewSiteName && C.reviewSiteUrl) {
+      document.getElementById('reviews-cta').innerHTML = '<a href="' + C.reviewSiteUrl + '" target="_blank" rel="noopener noreferrer">' + C.reviewCount + ' reviews on ' + C.reviewSiteName + '</a>';
+      document.getElementById('reviews-cta').style.display = 'block';
+    } else {
+      document.getElementById('reviews-cta').style.display = 'none';
+    }
+
+    // Contact
+    document.getElementById('contact-text').textContent = C.crossStreets ? 'Ready to book? Call us or stop by our location on ' + (C.address && C.address.street ? C.address.street.replace(/\d+\s+/, '') : '') + '.' : 'Ready to book? Call us or stop by.';
+    const phone = C.phone || '';
+    const phoneLink = document.getElementById('contact-phone');
+    phoneLink.href = 'tel:+1' + phone.replace(/\D/g, '');
+    phoneLink.textContent = phone || '(530) 555-1234';
+
+    // Footer
+    document.getElementById('footer-name').textContent = C.name || 'Massage';
+    document.getElementById('footer-city').textContent = C.address ? C.address.city + ', ' + C.address.state : '';
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.querySelector('.nav-toggle').addEventListener('click', function() {
+      document.querySelector('.nav-links').classList.toggle('open');
+      this.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        document.querySelector('.nav-links').classList.remove('open');
+        document.querySelector('.nav-toggle').classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>
