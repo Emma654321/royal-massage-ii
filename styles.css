@@ -444,8 +444,31 @@ body {
 }
 
 .map-embed {
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  position: relative;
+}
+
+.map-overlay-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+.map-overlay-text {
+  background: rgba(250, 248, 245, 0.94);
+  color: var(--color-sage);
+  border: 1px solid rgba(74, 93, 79, 0.15);
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 500;
   box-shadow: var(--shadow-soft);
 }
 
@@ -453,6 +476,9 @@ body {
   display: block;
   width: 100%;
   min-height: 280px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  pointer-events: none;
 }
 
 .map-fallback {
