@@ -1,4 +1,4 @@
-# Deploy to GitHub Pages (https://royal-massage-ii-marysville.com)
+# Deploy to GitHub Pages (https://royalmassageii.com)
 
 ## 1. Create the GitHub repository
 
@@ -36,20 +36,21 @@ git push -u origin main
 
 Your site will be live at `https://YOUR_USERNAME.github.io/royal-massage-ii/` in a minute or two.
 
-## 4. Use your custom domain (royal-massage-ii-marysville.com)
+## 4. Use your custom domain (royalmassageii.com)
+
+**If you see "Domain's DNS record could not be retrieved" or "alternate name improperly configured"** → follow **DNS-SETUP.md** in this repo. Set DNS at your registrar first, then add the domain on GitHub. Use only the apex domain (`royalmassageii.com`, no `www`) in GitHub until DNS works.
 
 ### On GitHub
 
 1. Still in **Settings** → **Pages**.
-2. Under **Custom domain**, type: `royal-massage-ii-marysville.com`
-3. Click **Save**.
-4. Wait for DNS checks. If you see a warning, complete the DNS step below first, then come back and click **Save** again.
+2. Under **Custom domain**, type **only**: `royalmassageii.com` (no `www`).
+3. Click **Save**. Wait for DNS checks; if it fails, add the A records below first, wait 5–60 min, then Save again.
 
-The repo already contains a **CNAME** file with `royal-massage-ii-marysville.com`, so GitHub Pages will serve the site on that domain once DNS is set.
+The repo already contains a **CNAME** file with `royalmassageii.com`.
 
 ### At your domain registrar
 
-Add these records where you bought `royal-massage-ii-marysville.com` (e.g. Namecheap, GoDaddy, Cloudflare):
+Add these records where you bought `royalmassageii.com` (e.g. Namecheap, GoDaddy, Cloudflare):
 
 **Option A – A records (recommended)**  
 Add 4 A records for the root domain:
@@ -71,18 +72,18 @@ One record:
 (If your registrar doesn’t allow CNAME on the root (@), use **Option A**.)
 
 **Optional – www redirect**  
-To redirect `www.royal-massage-ii-marysville.com` to `royal-massage-ii-marysville.com`:
+To redirect `www.royalmassageii.com` to `royalmassageii.com`:
 
 - Add a CNAME: `www` → `YOUR_USERNAME.github.io`
 - In GitHub **Settings** → **Pages** → **Custom domain**, you can add `www` and choose “Redirect to apex” or keep only the apex domain; the CNAME file currently uses the apex.
 
 ## 5. HTTPS
 
-After DNS has propagated (often 5–60 minutes), GitHub will offer **Enforce HTTPS** under **Settings** → **Pages**. Check it so the site is only served over https://royal-massage-ii-marysville.com.
+After DNS has propagated (often 5–60 minutes), GitHub will offer **Enforce HTTPS** under **Settings** → **Pages**. Check it so the site is only served over https://royalmassageii.com.
 
 ---
 
 **Summary**
 
-- Code is ready to push; `CNAME` is set for `royal-massage-ii-marysville.com`.
+- Code is ready to push; `CNAME` is set for `royalmassageii.com`.
 - Create repo → push → enable Pages from `main` → set custom domain on GitHub → add A or CNAME records at your registrar → enforce HTTPS when available.
